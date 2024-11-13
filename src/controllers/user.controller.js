@@ -15,9 +15,7 @@ const generateAccessAndRefereshTokens = async(userId) =>{
 
         user.refreshToken = refreshToken
         await user.save({ validateBeforeSave: false })
-
         return {accessToken, refreshToken}
-
 
     } catch (error) {
         throw new ApiError(500, "Something went wrong while generating referesh and access token")
@@ -75,7 +73,7 @@ const registerUser = asyncHandler(async(req, res) => {
         fullName,
         avatar: avatar.url,
         coverImage: coverImage?.url || "",
-        email, 
+        email,
         password,
         username: username.toLowerCase()
     })
@@ -107,12 +105,9 @@ const loginUser = asyncHandler(async(req, res) => {
         - generate access and refresh token
         - saved cookies and send response success fully login
     */
-
     const { email,username,password} = req.body;
-
-
-    if (!username && !email) {
-        throw new ApiError(400, "username or email is required")
+    if (!password && !email) {
+        throw new ApiError(400, "email and password is required")
     }
 
     const user = await User.findOne({
@@ -256,11 +251,9 @@ const getCurrentUser = asyncHandler(async(req, res) => {
 
 const updateAccountDetails = asyncHandler(async(req, res) => {
     const {fullName, email} = req.body
-
     if (!fullName || !email) {
         throw new ApiError(400, "All fields are required")
     }
-
     const user = await User.findByIdAndUpdate(
         req.user?._id,
         {

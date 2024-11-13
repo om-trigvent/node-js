@@ -50,15 +50,13 @@ const uploadOnCloudinary = async (localFilePath) => {
       console.error("File path is invalid or file does not exist.");
       return null;
     }
-
     // Upload the file to Cloudinary
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "auto" // Automatically detect the resource type (image, video, etc.)
     });
     // After successful upload, delete the local file
     fs.unlinkSync(localFilePath);
-    // Log the Cloudinary response for debugging
-    console.log("File uploaded successfully:", response);
+
     // Return the Cloudinary response with URL and other details
     return response;
 
